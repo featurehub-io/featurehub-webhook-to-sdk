@@ -1,0 +1,19 @@
+{
+  "name": "featurehub-webhook-express",
+  "version": "1.0.0",
+  "description": "Allow webhook to run as an express app for general use case",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
+    "setup": "npm link featurehub-webhook-utils",
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx --fix"
+  },
+  "author": "featurehub.io",
+  "dependencies": {
+    "@types/node": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "typescript": "^5.2.2"
+  }
+}
