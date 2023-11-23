@@ -1,0 +1,25 @@
+= AWS Lambda
+
+The AWS Lamba example is designed to show how you can write a simple entrypoint
+in a lamba, and store the data into s3 as it is transformed. 
+
+You can load it from s3 into your SDK via http or the s3 api depending on whether
+it is included in your own application. 
+
+== Running up the example locally
+
+The local example uses localstack via docker-compose, you need to authenticate locally,
+which will set up testing credentials, and then bring up localstack with docker-compose.
+
+Create the bucket with
+
+ $ awslocal s3 mb s3://sdk-bucket
+
+The example runs in your local shell, so a simple
+
+ $ npm run example
+
+takes the sample data and puts it into the associated bucket.
+
+It is expect that your own organisation has rules and regulations around how lambdas
+are built and deployed so that is not attempted in this example. 

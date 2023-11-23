@@ -1,0 +1,148 @@
+= FeatureHub Webhook Utility Package
+
+This package is designed to give you utilities which allow you to transform the incoming
+webhook from FeatureHub into "other things". 
+
+There are two webhooks, of which one is covered by this library:
+
+- The standard webhook contains a full set of all of the features for an individual environment. 
+- The "messaging" webhook which contains a difference message, essentially an audit entry indicating what changes were made and by whom. 
+
+== The standard webhook
+
+It is designed to be triggered off and be a "full detail" message of an Environment's Feature state. Use cases for this for
+example are:
+
+For example
+
+* if you have PHP servers that store their data in a memcache, you could push it in into the memcache
+* if you have a lambda or cloud function that can more easily get its state from a bucket (s3, cloud storage) then you can push it there,
+so your SDK in those places can grab it from the bucket.
+* push the data into your own Cloud Cache vendor in a custom fashion for your browser or mobile devices to pick up
+* trigger some downstream CI automation such as rebuilding a static website.
+* accumulate and merge multiple environments, applications or portfolios together to form one large data set
+* push data into a timebased tracking or data logging solution
+
+There are endless possibilities of what you can do once you have the packet.
+
+The utilities here focus on the ability to transform the data into the format required by use in an SDK, but using the same
+technique you can do anything with it.
+
+== The utility libraries
+
+The utility libraries are split into the core library, the destination libraries (which are essentially examples), and then the end application examples.
+
+=== Feature Webhook utility library
+
+This library is designed to take an incoming webhook (in string or json body form) and
+transform it into a fully structured SDK json file which can be loaded into any of the
+FeatureHub SDKs without the need to use any of the existing clients - so it does not
+require FeatureHub to be accessible or available to your application.
+
+The essence of a request to be processed is something like this:
+
+[source,js]
+----
+await (new DestinationConfig()).route(bodyContainingPayload)
+----
+
+This request can come from a web request, or an event or any such thing, it just needs to be the payload. In FeatureHub SaaS for example, this turns up as a CloudEvent payload in a Google Cloud Function.
+
+The `DestinationConfig()` is a *registry* - when created (as above with the `new DestinationConfig()`) it will look for an environment variable called `DESTINATIONS`, which needs to be a comma separated list of arbitrary names.
+
+These arbitray names represent the converters that the sdk body will be passed to, which we call _destinations_ -
+for example you could have `DESTINATIONS=bucket,dynamo` - indicating when the webhook comes in, you want to pass that
+sdk data to some definition of a bucket and a DynamoDB configuration (note the names are arbitrary, they could
+be `DESTINATIONS=amelia,radcliffe` for instance - but its ideal to keep them meaningful).
+
+For each of these arbitrary names, it will look for `DESTINATION_x_TYPE`, which determines the converter it should use. Register
+the converters you wish to use by simply adding them as dependencies to the application that receives the webhook and
+`require`_ing_ them.
+
+Essentially your webhook receiver becomes a *composed* artifact that receives the webhook, authenticates it and then passes it along to the destinations
+for appropriate use. 
+
+===== An example : lamba
+
+A lamba which wishes to write the contents of the SDK to an s3 bucket so something downstream can consume it could look as follows. In this case we use `DESTINATIONS=s3`,
+the `s3` transformer registers a `DESTINATION_S3_TYPE=s3` automatically for us so we don't need to do anything else to define it. We need a bucket however, so we
+define `DESTINATION_S3_BUCKET=featurehub-sdk`.
+
+[source,js]
+----
+const {DestinationConfig} = require("featurehub-webhook-utils");
+
+// load and register s3 type
+require('featurehub-webhook-aws');
+
+// this is a standard lamba format for nodejs
+exports.handler = async (event, context) => {
+  console.log("EVENT: \n" + JSON.stringify(event, null, 2));
+  try {
+    await (new DestinationConfig()).route(event.body);
+    return 200;
+  } catch (e) {
+    console.error("failed to process", e);
+    return 500;
+  }
+}
+----
+
+How would we write to multiple s3 buckets? Say we have a bucket called `bucket1` and one called `bucket2` and we want to write in `bucket2` to the folder `features`.
+
+[source,shell]
+----
+DESTINATIONS=s1,s2
+DESTINATION_S1_TYPE=s3
+DESTINATION_S1_BUCKET=bucket1
+DESTINATION_S2_TYPE=s3
+DESTINATION_S2_BUCKET=bucket2
+DESTINATION_S2_FOLDER=features
+----
+
+No code needs to be changed unless we want to support extra destination types.
+
+== Writing your own destinations
+
+The destinations are simple - please consider contributing any useful ones back.
+
+=== Registration
+
+On load, they should register themselves in the `DestinationConfig` registry. 
+
+[source,typescript]
+----
+import {DestinationConfig, SdkAction} from "featurehub-webhook-utils";
+
+DestinationConfig.register('YourType', (code) => new YourClass(code));
+----
+
+A `code` above just allows you to use a `key('field_name')` that gives you a way to extract environment variables based on your type,
+e.g. the s3 one uses `code.key('folder')` and `code.key('bucket`)`. It always converts it to upper case - so looks for DESTINATION_<code>_<key>.
+
+=== Payload
+
+Your class must implement at least the DestinationPayload interface (if in javascript it just 
+needs to implement the method with the right signature) which is: 
+
+[source,typescript]
+----
+export interface DestinationPayload {
+  deliver(sdkPayload: SdkPayload): Promise<void>;
+}
+----
+
+The SdkPayload has three interesting fields:
+
+[source,typescript]
+----
+environmentId: string;
+sdkPayload: Array<FeatureState> | undefined;
+action: SdkAction;
+----
+
+The action indicates what kind of payload it was - (0) - it was an empty payload so should be ignored, this can happen on environment
+creation. (1) is a delete which means the environment was being deleted, (2) means it is being created or updated. The sdkPayload for (2)
+is always the complete set of features. The environmentId is that which matches the first part of the API Key - which is `environmentId/sdkApiKey`.
+
+

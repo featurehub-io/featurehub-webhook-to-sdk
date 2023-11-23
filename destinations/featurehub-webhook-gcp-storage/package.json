@@ -1,5 +1,5 @@
 {
-  "name": "featurehub-webhook-gcp",
+  "name": "featurehub-webhook-gcp-storage",
   "version": "1.0.0",
   "description": "Provides functionality for GCP destinations",
   "main": "dist/index.js",

@@ -1,7 +1,7 @@
 {
-  "name": "featurehub-webhook-aws",
+  "name": "featurehub-webhook-aws-s3",
   "version": "1.0.0",
-  "description": "Provides functionality for AWS support for a webhook",
+  "description": "Provides functionality for AWS S3 support for a webhook",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],

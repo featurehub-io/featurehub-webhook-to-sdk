@@ -31,7 +31,10 @@ export class DestinationAwsS3 implements DestinationPayload {
   }
 
   async deliver(features: SdkPayload): Promise<void> {
-    const keyFile = `${this.folder}/${features.environmentId}.json`;
+    let keyFile = `${this.folder}/${features.environmentId}.json`;
+    if (keyFile.startsWith('/')) {
+      keyFile = keyFile.substring(1);
+    }
 
     if (features.action === SdkAction.delete) {
       await this.deleteEnvironment(keyFile, features);
