@@ -3,7 +3,7 @@
 This package is designed to give you utilities which allow you to transform the incoming
 webhook from FeatureHub into a message format, that can be used by one of the FeatureHub SDKs, and to allow to store the message at a destination (e.g. S3 bucket). Primary use case for this is caching features outside FeatureHub server, for example in AWS S3 storage or Cloud Storage.
 
-image::webhook_diagram.jpg[Admin Service Account, 1700, 400]
+image::webhook_diagram.jpg[Admin Service Account, 1700, 1200]
 
 There are two types of webhooks that FeatureHub produces:
 
