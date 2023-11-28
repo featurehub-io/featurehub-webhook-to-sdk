@@ -34,9 +34,6 @@ export class DestinationConfig implements DestinationPayload {
         .filter(p => p !== undefined)];
     }
 
-    this.payloadDestinations.forEach(pd => console.log('destination is ', pd));
-    console.log('destinations are ')
-
     const deliveries: Array<Promise<void>> = [];
 
     for (const dest of this.payloadDestinations) {

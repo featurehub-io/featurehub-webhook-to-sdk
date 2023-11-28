@@ -73,7 +73,7 @@ define `DESTINATION_S3_BUCKET=featurehub-sdk`.
 const {DestinationConfig} = require("featurehub-webhook-utils");
 
 // load and register s3 type
-require('featurehub-webhook-aws');
+require('featurehub-webhook-aws-s3');
 
 // this is a standard lamba format for nodejs
 exports.handler = async (event, context) => {
