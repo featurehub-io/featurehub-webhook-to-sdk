@@ -1,7 +1,7 @@
-import {DestinationPayload} from "./payload";
-import {DestinationCode} from "./code";
-import {SdkAction, SdkPayload} from "../transform";
-import {EnrichedFeatures} from "featurehub-javascript-webhooks";
+import { DestinationPayload } from './payload';
+import { DestinationCode } from './code';
+import { SdkAction, SdkPayload } from '../transform';
+import { EnrichedFeatures } from 'featurehub-javascript-webhooks';
 
 
 export type DestinationPayloadCallbackCreator = (key: DestinationCode) => DestinationPayload;
@@ -11,7 +11,7 @@ export type DestinationPayloadCallbackCreator = (key: DestinationCode) => Destin
 export class DestinationConfig implements DestinationPayload {
   public readonly destinations: Array<DestinationCode>;
   private payloadDestinations: Array<DestinationPayload> = [];
-  private initialized: boolean = false;
+  private initialized = false;
   private static readonly types: Record<string, DestinationPayloadCallbackCreator> = {};
 
   constructor() {
@@ -66,15 +66,12 @@ export class DestinationConfig implements DestinationPayload {
     // destinations without separation between "name" and "type. e.g. we can have DESTINATIONS=S3, DESTINATION_S3_BUCKET=fred
     // without having to have DESTINATION_S3_TYPE=s3
 
-    for(const key in DestinationConfig.types) {
-      defaults.push(DestinationConfig.types[key](new DestinationCode(key)))
+    for (const key in DestinationConfig.types) {
+      defaults.push(DestinationConfig.types[key](new DestinationCode(key)));
     }
 
     return defaults;
   }
 }
-
-
-
 
 

@@ -3,8 +3,8 @@ import {
   CacheRolloutStrategy, CacheRolloutStrategyAttribute,
   EnrichedFeatures,
   PublishAction
-} from "featurehub-javascript-webhooks";
-import {BaseRolloutStrategyAttribute, FeatureRolloutStrategy, FeatureState} from "./models";
+} from 'featurehub-javascript-webhooks';
+import { BaseRolloutStrategyAttribute, FeatureRolloutStrategy, FeatureState } from './models';
 
 export enum SdkAction {
   none, delete, upsert
@@ -63,6 +63,6 @@ export class SdkPayload {
       fieldName: a.fieldName,
       values: a.values,
       type: a.type
-    }
+    };
   }
 }
