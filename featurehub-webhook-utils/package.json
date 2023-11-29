@@ -45,6 +45,6 @@
     "ab-testing",
     "featurehub",
     "featurehub-webhook",
-    "featurehub-webhook-conversion",
+    "featurehub-webhook-conversion"
   ]
 }
