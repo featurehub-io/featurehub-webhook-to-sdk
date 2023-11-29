@@ -1,0 +1,18 @@
+= featurehub-webhook-cloud-function
+
+This is an example Google Cloud Function that triggers on an incoming webhook
+and transforms the data and stores it into a bucket. The example expects a CloudEvent,
+which is how the data is delivered from FeatureHub, and the CloudEvent header is
+correctly checked.
+
+The `package.json` contains a set of useful functionality including `start` which will start the server running on your local machine, and `./payload.sh` which posts the
+sample payload to the example.
+
+As there is no emulator for GCP Storage, your local client will need to be logged into
+the account. You will see that the sample is configured with a bucket:
+
+ $ DESTINATIONS=storage DESTINATION_STORAGE_BUCKET=gs://featurehub-webhook-test-bucket DESTINATION_STORAGE_FOLDER=sdks npx functions-framework --target=featurehub --port=3000 --signature-type=cloudevent
+
+So it is trying to store the environment in the `featurehub-webhook-test-bucket` under
+the `sdks` folder. Please feel free to change and experiment with this as suites your
+requirements. 

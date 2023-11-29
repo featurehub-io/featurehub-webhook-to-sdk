@@ -13,12 +13,17 @@ export class DestinationGcpCloudStorage implements  DestinationPayload {
     if (bucket === undefined) {
       throw new Error(`Unable to determine bucket name for GCP Cloud Storage code ${code.code}`);
     }
+    this.bucket = bucket;
     this.folder = code.key('FOLDER') || '';
+    if (this.folder.length > 0) {
+      this.folder = this.folder + '/';
+    }
+    console.log(`GCP Storage destination ${code.code}: bucket is ${bucket}, folder is ${this.folder}`);
     this.client = new Storage();
   }
 
   async deliver(features: SdkPayload): Promise<void> {
-    const keyFile = `${this.folder}/${features.environmentId}.json`;
+    const keyFile = `${this.folder}${features.environmentId}.json`;
     const file = this.client.bucket(this.bucket).file(keyFile, { });
 
     try {

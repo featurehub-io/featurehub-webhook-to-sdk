@@ -6,8 +6,47 @@
     "action": "CREATE",
     "fv": [
       {
-        "feature": {"id": "f-id-1", "key": "f-key-1", "type": "BOOLEAN"
-      }, "value": {"locked": false, "version": 1, "value": true, "rolloutStrategies": []}}
+        "feature": {
+          "id": "f-id-1",
+          "key": "f-key-1",
+          "type": "BOOLEAN"
+        },
+        "value": {
+          "locked": false,
+          "version": 1,
+          "value": true,
+          "rolloutStrategies": [
+            {
+              "id": "1",
+              "value": false,
+              "attributes": [
+                {
+                  "conditional": "EQUALS",
+                  "fieldName": "country",
+                  "values": ["AUSTRALIA", "PERU", "SURINAME"],
+                  "type": "STRING"
+                },
+                {
+                  "conditional": "LESS_EQUALS",
+                  "fieldName": "city_size",
+                  "values": [120000],
+                  "type": "NUMBER"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "percentage": "0.2",
+              "percentageAttributes": [
+                "warehouseId"
+              ],
+              "value": false,
+              "attributes": [
+              ]
+            }
+          ]
+        }
+      }
     ]
   }
 }

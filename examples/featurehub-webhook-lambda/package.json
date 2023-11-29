@@ -1,12 +1,12 @@
 {
-  "name": "featurehub-webhook-utils",
+  "name": "featurehub-webhook-lambda-example",
   "version": "1.0.0",
-  "description": "Core shared utils for lamba, cloud function and knative function",
+  "description": "Core example for lambda",
   "scripts": {
     "clean": "rm -rf target/dist",
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "setup": "npm link featurehub-webhook-aws-s3 featurehub-webhook-utils",
-    "example": "DESTINATIONS=s3 DESTINATION_S3_BUCKET=sdk-bucket AWS_ENDPOINT=http://127.0.0.1:4566 node localstack/example.js",
+    "start": "DESTINATIONS=s3 DESTINATION_S3_BUCKET=sdk-bucket AWS_ENDPOINT=http://127.0.0.1:4566 node localstack/example.js",
     "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "main": "index.js",

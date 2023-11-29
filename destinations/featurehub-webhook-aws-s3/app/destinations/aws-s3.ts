@@ -21,7 +21,9 @@ export class DestinationAwsS3 implements DestinationPayload {
 
     this.bucket = bucket;
     this.folder = code.key('folder') || '';
-
+    if (this.folder.length > 0) {
+      this.folder = this.folder + '/';
+    }
 
     this.s3Client = new S3Client({
       region: 'us-east-1',
@@ -31,10 +33,7 @@ export class DestinationAwsS3 implements DestinationPayload {
   }
 
   async deliver(features: SdkPayload): Promise<void> {
-    let keyFile = `${this.folder}/${features.environmentId}.json`;
-    if (keyFile.startsWith('/')) {
-      keyFile = keyFile.substring(1);
-    }
+    let keyFile = `${this.folder}${features.environmentId}.json`;
 
     if (features.action === SdkAction.delete) {
       await this.deleteEnvironment(keyFile, features);
