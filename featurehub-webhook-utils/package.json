@@ -1,27 +1,50 @@
 {
   "name": "featurehub-webhook-utils",
   "version": "1.0.0",
-  "description": "Base utils to allow the webhook to be turned into the SDK payload",
+  "description": "Base utils to convert FeatureHub webhook into a standard FeatureHub SDKs payload for further processing",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "type": "module",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "link": "node ./node_modules/typescript/bin/tsc && npm link",
-    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "release": "npm run build && npm publish"
   },
-  "author": "featurehub.io",
   "dependencies": {
     "featurehub-javascript-webhooks": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
     "@types/chai": "^4.3.10",
-
     "chai": "^4.3.7",
     "mocha": "^10.1.0",
     "@types/mocha": "^9.0.0",
     "typescript": "^5.2.2"
-  }
+  },
+  "author": "info@featurehub.io",
+  "license": "MIT",
+  "homepage": "https://featurehub.io",
+  "keywords": [
+    "feature-flag-api",
+    "feature-flag-webhook",
+    "feature-experimentation",
+    "feature-flag",
+    "flag",
+    "toggle",
+    "feature-toggle",
+    "feature-toggle-api",
+    "remote-configuration",
+    "gradual-rollout",
+    "ab-testing",
+    "featurehub",
+    "featurehub-webhook",
+    "featurehub-webhook-conversion",
+  ]
 }
