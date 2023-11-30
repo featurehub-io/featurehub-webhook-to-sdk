@@ -10,13 +10,10 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
-          node-version: "14.x"
+          node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
       - name: Install dependencies
         run: npm install
-        working-directory: featurehub-webhook-utils
-      - name: Install peer dependencies
-        run: npm install featurehub-javascript-webhooks
         working-directory: featurehub-webhook-utils
       - name: Compile sources and Publish to NPM
         run: npm run release
