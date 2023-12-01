@@ -1,4 +1,4 @@
-import {SdkPayload} from "../transform";
+import { SdkPayload } from '../transform';
 
 
 export interface DestinationPayload {
