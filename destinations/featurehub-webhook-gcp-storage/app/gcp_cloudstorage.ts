@@ -1,7 +1,5 @@
-import {Storage} from "@google-cloud/storage";
-import {DestinationCode, DestinationConfig, DestinationPayload, SdkAction, SdkPayload} from "featurehub-webhook-utils";
-
-DestinationConfig.register('storage', (code) => new DestinationGcpCloudStorage(code));
+import { Storage } from '@google-cloud/storage';
+import { DestinationCode, DestinationConfig, DestinationPayload, SdkAction, SdkPayload } from 'featurehub-webhook-utils';
 
 export class DestinationGcpCloudStorage implements  DestinationPayload {
   private readonly bucket: string;
@@ -37,3 +35,6 @@ export class DestinationGcpCloudStorage implements  DestinationPayload {
     }
   }
 }
+
+DestinationConfig.register('storage', (code) => new DestinationGcpCloudStorage(code));
+

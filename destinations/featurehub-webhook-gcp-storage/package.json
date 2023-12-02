@@ -4,7 +4,9 @@
   "description": "Provides functionality for GCP destinations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "clean": "rm -rf target/dist",
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
@@ -14,10 +16,15 @@
   },
   "author": "featurehub.io",
   "dependencies": {
-    "@google-cloud/storage": "^7.6.0"
+    "@google-cloud/storage": "^7.6.0",
+    "featurehub-webhook-utils": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-filenames-simple": "^0.9.0"
   }
 }

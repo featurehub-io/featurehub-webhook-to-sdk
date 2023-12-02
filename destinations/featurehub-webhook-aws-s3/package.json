@@ -18,7 +18,8 @@
     "release": "npm run build && npm publish"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.454.0"
+    "@aws-sdk/client-s3": "^3.454.0",
+    "featurehub-webhook-utils": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
@@ -26,9 +27,10 @@
     "mocha": "^10.1.0",
     "@types/mocha": "^9.0.0",
     "typescript": "^5.2.2",
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
-    "eslint": "^8.0.0"
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-filenames-simple": "^0.9.0"
   },
   "author": "info@featurehub.io",
   "license": "MIT",

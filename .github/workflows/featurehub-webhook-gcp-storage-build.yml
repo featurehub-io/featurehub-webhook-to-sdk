@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-    - 'featurehub-webhook-aws-s3/**'
+    - 'destinations/featurehub-webhook-aws-s3/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,10 +25,10 @@ jobs:
           node-version: '18.x'
       - name: Install dependencies
         run: npm install
-        working-directory: featurehub-webhook-gcp-storage
+        working-directory: destinations/featurehub-webhook-gcp-storage
       - name: Build
         run: npm run build
-        working-directory: featurehub-webhook-gcp-storage
+        working-directory: destinations/featurehub-webhook-gcp-storage
       - name: Lint
         run: npm run lint
-        working-directory: featurehub-webhook-gcp-storage
+        working-directory: destinations/featurehub-webhook-gcp-storage
