@@ -48,7 +48,8 @@
     "gradual-rollout",
     "ab-testing",
     "featurehub",
-    "featurehub-webhook",
+    "featurehub-webhook-aws-s3",
+    "featurehub-webhook-cache",
     "featurehub-webhook-conversion"
   ]
 }

@@ -45,7 +45,8 @@
     "gradual-rollout",
     "ab-testing",
     "featurehub",
-    "featurehub-webhook",
+    "featurehub-webhook-gcp-storage",
+    "featurehub-webhook-cache",
     "featurehub-webhook-conversion"
   ]
 }
