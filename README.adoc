@@ -27,7 +27,7 @@ so your FeatureHub SDK can grab it from the bucket. Such technique can be used t
 
 == Package Documentation
 
-The package is split into the link:https://github.com/featurehub-io/featurehub-webhook-to-sdk/tree/docs-patch1/featurehub-webhook-utils[core library] and the link:https://github.com/featurehub-io/featurehub-webhook-to-sdk/tree/docs-patch1/destinations[destination libraries] (converters). You can also find examples link:https://github.com/featurehub-io/featurehub-webhook-to-sdk/tree/docs-patch1/examples[here].
+The package is split into the link:https://github.com/featurehub-io/featurehub-webhook-to-sdk/tree/main/featurehub-webhook-utils[core library] and the link:https://github.com/featurehub-io/featurehub-webhook-to-sdk/tree/main/destinations[destination libraries] (converters). You can also find examples link:https://github.com/featurehub-io/featurehub-webhook-to-sdk/tree/main/examples[here].
 
 The core library is designed to take an incoming webhook (in string or json body form) and
 transform it into a fully structured SDK json file which can be loaded into any of the
@@ -141,4 +141,76 @@ The action indicates what kind of payload it was - (0) - it was an empty payload
 creation. (1) is a "delete" which means the environment was being deleted, (2) means it is being created or updated. The `sdkPayload` for (2)
 is always the complete set of features. The `environmentId` is that which matches the first part of the API Key - which is `{environmentId/sdkApiKey}`.
 
+== SDK Use
+
+The format this library translates into is that of the SSE request format. Particularly, when the SSE response is the full payload of Features, most of the SDKs expect to see this format.. 
+
+In all the SDKs, the sequence of operations is the same:
+
+. get the stored data (from s3, cloud storage, dynamo-db, redis, etc)
+. convert it to JSON
+. pass the data to an instance of the FeatureHub repository while telling it is a "SSE Features list". 
+
+Over time, this will change as we update the SDKs. 
+
+=== Javascript
+
+[source,javascript]
+----
+const data = ...;
+const repository = ...;
+repository.notify('features', data);
+----
+
+=== Java
+
+In Java, the data is expected to be a *string*, not json. It will convert it internally
+to an accepted type.
+
+[source,java]
+----
+String data = ...;
+FeatureStore repository = ....;
+repository.notify(SSEResultState.FEATURES, data);
+----
+
+=== C#
+
+[source,c#]
+----
+var data = ...; // string representation of data
+var repository = ...; // FeatureHubRepository 
+repository.Notify(SSEResultState.Features, data);
+----
+
+=== Ruby
+
+[source,ruby]
+----
+data = ... # json data
+repository = ... #  FeatureHub::Sdk::FeatureHubRepository
+repository.notify('features', data)
+----
+
+=== Python
+
+[source,python]
+----
+data = ... # json dict
+repository = ... # FeatureHubRepository
+repository.notify('features', data)
+----
+
+=== Dart/Flutter
+
+[source,dart]
+----
+final data = ...;
+final repository = ...;
+repository.notify(SSEResultState.features, data);
+----
+
+=== Swift
+
+The Swift repository is fully internal and there is no current way of loading state directly into it.
 
