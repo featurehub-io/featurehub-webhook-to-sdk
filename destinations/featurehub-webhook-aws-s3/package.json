@@ -1,26 +1,55 @@
 {
   "name": "featurehub-webhook-aws-s3",
   "version": "1.0.0",
-  "description": "Provides functionality for AWS S3 support for a webhook",
+  "description": "FeatureHub webhook converter library to allow storing feature updates in AWS S3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "setup": "npm link featurehub-webhook-utils",
     "link": "npm run build && npm link",
-    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx --fix"
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "release": "npm run build && npm publish"
   },
-  "author": "featurehub.io",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.454.0"
+    "@aws-sdk/client-s3": "^3.454.0",
+    "featurehub-webhook-utils": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
     "chai": "^4.3.7",
     "mocha": "^10.1.0",
     "@types/mocha": "^9.0.0",
-    "typescript": "^5.2.2"
-  }
+    "typescript": "^5.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-filenames-simple": "^0.9.0"
+  },
+  "author": "info@featurehub.io",
+  "license": "MIT",
+  "homepage": "https://featurehub.io",
+  "keywords": [
+    "feature-flag-api",
+    "feature-flag-webhook",
+    "feature-experimentation",
+    "feature-flag",
+    "flag",
+    "toggle",
+    "feature-toggle",
+    "feature-toggle-api",
+    "remote-configuration",
+    "gradual-rollout",
+    "ab-testing",
+    "featurehub",
+    "featurehub-webhook-aws-s3",
+    "featurehub-webhook-cache",
+    "featurehub-webhook-conversion"
+  ]
 }

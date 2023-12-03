@@ -1,9 +1,6 @@
-import {DestinationPayload, DestinationCode, SdkPayload} from "featurehub-webhook-utils";
-import {DeleteObjectCommand, PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
-import {DestinationConfig, SdkAction} from "featurehub-webhook-utils/dist";
-
-// register this class for processing s3 data
-DestinationConfig.register('s3', (code) => new DestinationAwsS3(code));
+import { DestinationPayload, DestinationCode, SdkPayload } from 'featurehub-webhook-utils';
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DestinationConfig, SdkAction } from 'featurehub-webhook-utils/dist';
 
 export class DestinationAwsS3 implements DestinationPayload {
   private code: DestinationCode;
@@ -33,7 +30,7 @@ export class DestinationAwsS3 implements DestinationPayload {
   }
 
   async deliver(features: SdkPayload): Promise<void> {
-    let keyFile = `${this.folder}${features.environmentId}.json`;
+    const keyFile = `${this.folder}${features.environmentId}.json`;
 
     if (features.action === SdkAction.delete) {
       await this.deleteEnvironment(keyFile, features);
@@ -69,4 +66,7 @@ export class DestinationAwsS3 implements DestinationPayload {
     }
   }
 }
+
+// register this class for processing s3 data
+DestinationConfig.register('s3', (code) => new DestinationAwsS3(code));
 

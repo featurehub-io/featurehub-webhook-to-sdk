@@ -1,2 +1,2 @@
 
-export * from './gcp-cloudstorage';
+export * from './gcp_cloudstorage';
